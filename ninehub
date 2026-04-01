@@ -1,0 +1,25 @@
+local player = game.Players.LocalPlayer
+local freezeGui = Instance.new("ScreenGui")
+freezeGui.ResetOnSpawn = false
+freezeGui.IgnoreGuiInset = true
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(1,0,1,0)
+frame.BackgroundColor3 = Color3.new(0,0,0)
+frame.BorderSizePixel = 0
+frame.Parent = freezeGui
+
+local text = Instance.new("TextLabel")
+text.Size = UDim2.new(1,0,1,0)
+text.BackgroundTransparency = 1
+text.Text = "LOADING NINE HUB/LEX HUB\n\nPLS WAIT"
+text.TextColor3 = Color3.new(1, 0, 0)
+text.TextScaled = true
+text.Font = Enum.Font.Arcade
+text.Parent = frame
+
+freezeGui.Parent = player.PlayerGui
+
+-- Freeze for 160
+task.wait(160)
+freezeGui:Destroy()
