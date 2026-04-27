@@ -1456,3 +1456,98 @@ makeBtn("DROP", 190, function()
     doDrop()
 end)
 
+task.delay(2, function() -- delay so your main script loads first
+
+    local player = game:GetService("Players").LocalPlayer
+
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "IK_FloatUI"
+    gui.Parent = player:WaitForChild("PlayerGui")
+    gui.ResetOnSpawn = false
+
+    local frame = Instance.new("Frame", gui)
+    frame.Size = UDim2.new(0,180,0,260)
+    frame.Position = UDim2.new(0,20,0.5,-130)
+    frame.BackgroundColor3 = Color3.fromRGB(15,18,25)
+    frame.BorderSizePixel = 0
+    Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
+
+    -- drag
+    local dragging, startPos, startInput
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            startInput = input.Position
+            startPos = frame.Position
+        end
+    end)
+
+    frame.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if dragging then
+            local delta = input.Position - startInput
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+
+    local function makeBtn(text, y, callback)
+        local btn = Instance.new("TextButton", frame)
+        btn.Size = UDim2.new(1,-20,0,35)
+        btn.Position = UDim2.new(0,10,0,y)
+        btn.BackgroundColor3 = Color3.fromRGB(25,30,40)
+        btn.TextColor3 = Color3.fromRGB(0,220,200)
+        btn.Font = Enum.Font.GothamBold
+        btn.TextSize = 13
+        btn.Text = text
+        btn.BorderSizePixel = 0
+        Instance.new("UICorner", btn).CornerRadius = UDim.new(0,8)
+
+        btn.MouseButton1Click:Connect(callback)
+        return btn
+    end
+
+    local function makeToggle(text, y, onEnable, onDisable)
+        local state = false
+
+        local btn = makeBtn(text.." : OFF", y, function()
+            state = not state
+            btn.Text = text.." : "..(state and "ON" or "OFF")
+
+            if state then
+                onEnable()
+            else
+                onDisable()
+            end
+        end)
+    end
+
+    -- CONNECT FEATURES
+    makeToggle("BAT AIMBOT", 10,
+        function() startBatAimbot() end,
+        function() stopBatAimbot() end
+    )
+
+    makeToggle("AUTO LEFT", 55,
+        function() autoLOn = true startAutoL() end,
+        function() stopAutoL() end
+    )
+
+    makeToggle("AUTO RIGHT", 100,
+        function() autoROn = true startAutoR() end,
+        function() stopAutoR() end
+    )
+
+    makeBtn("TP DOWN", 145, function()
+        doTPDown()
+    end)
+
+    makeBtn("DROP", 190, function()
+        doDrop()
+    end)
+
+end)
