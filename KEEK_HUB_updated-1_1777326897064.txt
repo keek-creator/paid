@@ -131,7 +131,7 @@ local function MakeDraggable(frame)
 end
 
 -- ===== GLOBALS =====
-NORMAL_SPEED = 60
+NORMAL_SPEED = 58
 SLOW_SPEED = 29
 POS_L1 = Vector3.new(-476.48, -6.28, 92.73)
 POS_L2 = Vector3.new(-483.12, -4.95, 94.80)
@@ -1916,7 +1916,7 @@ do
         btn.Text = label
         btn.TextColor3 = C_WHITE
         btn.FontFace = MINECRAFT_FONT
-        btn.TextSize = 9
+        btn.TextSize = 10
         btn.TextWrapped = true
         btn.BackgroundTransparency = 1
         btn.AutoButtonColor = false
